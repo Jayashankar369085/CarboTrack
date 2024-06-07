@@ -70,11 +70,17 @@
 </head>
 <body>
     <div class="overlay"></div>
-    <a href="index.html"><button class="previous-btn" onclick="index.html">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    </button></a>
+    <a href="./index.html">
+        <button class="previous-btn">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        </button>
+    </a>
     <div class="container my-5">
-        <center style="margin-bottom: 125px;"><img src="https://i.ibb.co/s2hvZ78/182551-200.png" height="60px" width="60px">&nbsp&nbsp<img src="https://i.ibb.co/9HKpLYq/cooltext459891363137067.png"></center>
+        <center style="margin-bottom: 125px;">
+            <img src="https://i.ibb.co/s2hvZ78/182551-200.png" height="60px" width="60px">
+            &nbsp;&nbsp;
+            <img src="https://i.ibb.co/9HKpLYq/cooltext459891363137067.png">
+        </center>
         <div class="card" style="margin-bottom:70px;">
             <div class="card-body">
                 <h1 class="card-title text-center">Create New Account</h1>
@@ -93,15 +99,13 @@
                     </div>
                     <br>
                     <button type="submit" class="btn btn-primary w-100" style="height:50px">Create Account</button>
-                    <br> <br> 
+                    <br><br>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-        
-
         document.getElementById('create-account-form').addEventListener('submit', function (e) {
             e.preventDefault();
 
@@ -122,8 +126,9 @@
             localStorage.setItem('accounts', JSON.stringify(accounts));
 
             alert('New account created successfully!');
-            window.location.href = 'index.html'; // Redirect to login page
+            window.location.href = './index.html'; // Redirect to login page
         });
     </script>
 </body>
 </html>
+
