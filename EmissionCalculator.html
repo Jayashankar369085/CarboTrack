@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Emission Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" sizes="64x64" href="https://i.ibb.co/s2hvZ78/182551-200.png">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 8px;
+        }
+        .card-title {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        #emission-chart {
+            max-width: 100%;
+            height: 300px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+        h3 {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .previous-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 40%;
+            padding: 08px;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 3; 
+        }
+    </style>
+</head>
+<body style="background-color:#222"> 
+    <a href="Home.html"><button class="previous-btn" onclick="login.html">
+        <span><img src="https://cdn4.iconfinder.com/data/icons/neutro-interface/32/chevron-left-256.png" height="40px" width="40px"></span>
+    </button></a>
+    <div class="container my-5">
+        <center style="margin-bottom: 105px;"><img src="https://i.ibb.co/s2hvZ78/182551-200.png" height="60px" width="60px">&nbsp&nbsp<img src="https://i.ibb.co/9HKpLYq/cooltext459891363137067.png"></center>
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title text-center">Carbon Emission Calculator</h1>
+                <hr>
+                <form id="emission-form" class="mt-4">
+                    <h3>Transportation</h3>
+                    <div class="mb-3">
+                        <label for="transportation-method" class="form-label">Transportation Method:</label>
+                        <select class="form-control" id="transportation-method" name="transportation-method">
+                            <option value="petrol">Petrol Vehicle</option>
+                            <option value="diesel">Diesel Vehicle</option>
+                            <option value="public">Public Transport</option>
+                            <option value="electric">Electric Vehicle</option>
+                        </select>
+                    </div>
+                    <div id="distance-section" class="mb-3">
+                        <label for="transportation-km" class="form-label">Transportation Distance (km):</label>
+                        <input type="number" class="form-control" id="transportation-km" name="transportation-km" placeholder="Enter kilometers traveled">
+                    </div>
+                    <div id="mileage-section" class="mb-3">
+                        <label for="transportation-mileage" class="form-label">Vehicle Mileage (km per liter):</label>
+                        <input type="number" class="form-control" id="transportation-mileage" name="transportation-mileage" placeholder="Enter vehicle mileage">
+                    </div>
+                    <h3>Electricity</h3>
+                    <div class="mb-3">
+                        <label for="electricity-hours" class="form-label">Electricity Use (hours):</label>
+                        <input type="number" class="form-control" id="electricity-hours" name="electricity-hours" placeholder="Enter hours of electricity use">
+                    </div>
+                    <h3>Natural Gas</h3>
+                    <div class="mb-3">
+                        <label for="gas-hours" class="form-label">Natural Gas Use (hours):</label>
+                        <input type="number" class="form-control" id="gas-hours" name="gas-hours" placeholder="Enter hours of gas use">
+                    </div>
+                    <h3>Waste</h3>
+                    <div class="mb-3">
+                        <label for="waste" class="form-label">Waste Generated (kg):</label>
+                        <input type="number" class="form-control" id="waste" name="waste" placeholder="Enter kilograms of waste generated">
+                    </div>
+                    <h3>Dietary</h3>
+                    <div class="mb-3">
+                        <label for="diet" class="form-label">Diet (meals per day):</label>
+                        <input type="number" class="form-control" id="diet" name="diet" placeholder="Enter number of meat-based meals per day">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#resultsModal">Calculate</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="modal fade" id="resultsModal" tabindex="-1" aria-labelledby="resultsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultsModalLabel">Results</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="total-emission" class="text-center fs-4"></p>
+                    <p id="emission-message" class="text-center fs-5"></p>
+                    <canvas id="emission-chart"></canvas>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-button">Save</button>
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#historyModal">View History</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="historyModalLabel">Emission History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul id="history-list" class="list-group"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="clear-history-button">Clear History</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.getElementById('transportation-method').addEventListener('change', function () {
+            const method = this.value;
+            const distanceSection = document.getElementById('distance-section');
+            const mileageSection = document.getElementById('mileage-section');
+            if (method === 'public' || method === 'electric') {
+                distanceSection.style.display = 'none';
+                mileageSection.style.display = 'none';
+            } else {
+                distanceSection.style.display = 'block';
+                mileageSection.style.display = 'block';
+            }
+        });
+
+        document.getElementById('emission-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get input values
+            const transportationMethod = document.getElementById('transportation-method').value;
+            const transportationKm = parseFloat(document.getElementById('transportation-km').value) || 0;
+            const transportationMileage = parseFloat(document.getElementById('transportation-mileage').value) || 0;
+            const electricityHours = parseFloat(document.getElementById('electricity-hours').value) || 0;
+            const gasHours = parseFloat(document.getElementById('gas-hours').value) || 0;
+            const waste = parseFloat(document.getElementById('waste').value) || 0;
+            const diet = parseFloat(document.getElementById('diet').value) || 0;
+
+            
+            const factors = {
+                petrol: 2.31,     // kg CO2 per liter
+                diesel: 2.68,     // kg CO2 per liter
+                public: 0,        // kg CO2 per km 
+                electric: 0.12,   // kg CO2 per km 
+                electricity: 0.5, // kg CO2 per hour
+                gas: 2.3,         // kg CO2 per hour
+                waste: 2.5,       // kg CO2 per kg of waste
+                diet: 7.3         // kg CO2 per meat-based meal
+            };
+
+            let transportationEmission = 0;
+            if (transportationMethod === 'petrol' || transportationMethod === 'diesel') {
+                transportationEmission = (transportationKm / transportationMileage) * factors[transportationMethod];
+            } else if (transportationMethod === 'electric') {
+                transportationEmission = transportationKm * factors[transportationMethod];
+            }
+
+            // Calculate emissions
+            const electricityEmission = electricityHours * factors.electricity;
+            const gasEmission = gasHours * factors.gas;
+            const wasteEmission = waste * factors.waste;
+            const dietEmission = diet * factors.diet;
+            const totalEmission = transportationEmission + electricityEmission + gasEmission + wasteEmission + dietEmission;
+
+// Determine emission level and message
+let message = '';
+if (totalEmission < 50) {
+    message = 'Your carbon footprint is low. Keep up the good work!';
+} else if (totalEmission < 100) {
+    message = 'Your carbon footprint is moderate. Consider taking steps to reduce it.';
+} else {
+    message = 'Your carbon footprint is high. Try to adopt more eco-friendly habits!';
+}
+
+// Display results
+document.getElementById('total-emission').innerText = `Total Emission: ${totalEmission.toFixed(2)} kg CO2`;
+document.getElementById('emission-message').innerText = message;
+
+// Display chart
+displayChart(transportationEmission, electricityEmission, gasEmission, wasteEmission, dietEmission);
+
+// Save data on Save button click
+document.getElementById('save-button').onclick = function () {
+    saveEmissionData(transportationEmission, electricityEmission, gasEmission, wasteEmission, dietEmission, totalEmission, message);
+};
+});
+
+function displayChart(transportationEmission, electricityEmission, gasEmission, wasteEmission, dietEmission) {
+const ctx = document.getElementById('emission-chart').getContext('2d');
+if (window.myChart) {
+    window.myChart.destroy();
+}
+window.myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['Transportation', 'Electricity', 'Natural Gas', 'Waste', 'Diet'],
+        datasets: [{
+            data: [transportationEmission, electricityEmission, gasEmission, wasteEmission, dietEmission],
+            backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0']
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Carbon Emissions Breakdown'
+            }
+        }
+    }
+});
+}
+
+function saveEmissionData(transportationEmission, electricityEmission, gasEmission, wasteEmission, dietEmission, totalEmission, message) {
+const emissionData = {
+    date: new Date().toLocaleString(),
+    transportation: transportationEmission,
+    electricity: electricityEmission,
+    gas: gasEmission,
+    waste: wasteEmission,
+    diet: dietEmission,
+    total: totalEmission,
+    message: message
+};
+
+let emissionsHistory = JSON.parse(localStorage.getItem('emissionsHistory')) || [];
+emissionsHistory.push(emissionData);
+localStorage.setItem('emissionsHistory', JSON.stringify(emissionsHistory));
+
+alert('Emission data saved successfully!');
+}
+
+document.getElementById('historyModal').addEventListener('show.bs.modal', function () {
+const historyList = document.getElementById('history-list');
+historyList.innerHTML = '';
+
+let emissionsHistory = JSON.parse(localStorage.getItem('emissionsHistory')) || [];
+emissionsHistory.forEach(entry => {
+    const listItem = document.createElement('li');
+    listItem.className = 'list-group-item';
+    listItem.innerHTML = `
+        <strong>Date:</strong> ${entry.date}<br>
+        <strong>Transportation:</strong> ${entry.transportation.toFixed(2)} kg CO2<br>
+        <strong>Electricity:</strong> ${entry.electricity.toFixed(2)} kg CO2<br>
+        <strong>Natural Gas:</strong> ${entry.gas.toFixed(2)} kg CO2<br>
+        <strong>Waste:</strong> ${entry.waste.toFixed(2)} kg CO2<br>
+        <strong>Diet:</strong> ${entry.diet.toFixed(2)} kg CO2<br>
+        <strong>Total Emission:</strong> ${entry.total.toFixed(2)} kg CO2<br>
+        <strong>Message:</strong> ${entry.message}
+    `;
+    historyList.appendChild(listItem);
+});
+});
+
+document.getElementById('clear-history-button').addEventListener('click', function() {
+localStorage.removeItem('emissionsHistory');
+const historyList = document.getElementById('history-list');
+historyList.innerHTML = '';
+alert('History cleared successfully!');
+});
+</script>
+</body>
+</html>
